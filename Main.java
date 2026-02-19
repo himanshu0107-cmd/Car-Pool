@@ -1,26 +1,66 @@
+import java.util.Scanner;
+
 public class Main {
+
     public static void main(String[] args) {
 
-        RideBookingSystem system = new RideBookingSystem();
+        Scanner sc = new Scanner(System.in);
 
-        // Users
-        User driver = new User(1, "Himanshu", "2024107289.himanshu@ug.sharda.ac.in", "1234");
-        User passenger = new User(2, "Pandey", "@gmail.com", "abcd");
+        RideDAO rideDAO = new RideDAO();
+        BookingDAO bookingDAO = new BookingDAO();
 
-        system.addUser(driver);
-        system.addUser(passenger);
+        while (true) {
 
-        // Create Ride
-        Ride ride1 = new Ride(101, "Delhi", "Noida", 4, 150, driver);
-        system.addRide(ride1);
+            System.out.println("1. Create Ride");
+            System.out.println("2. View Rides");
+            System.out.println("3. Book Ride");
+            System.out.println("4. Exit");
 
-        // Show rides
-        system.showAvailableRides();
+            int choice = sc.nextInt();
 
-        // Book ride
-        system.bookRide(101, passenger, 2);
+            switch (choice) {
 
-        // Show all bookings
-        system.showAllBookings();
+                case 1:
+                    System.out.println("Enter Driver ID:");
+                    int driverId = sc.nextInt();
+
+                    System.out.println("Enter Source:");
+                    String source = sc.next();
+
+                    System.out.println("Enter Destination:");
+                    String destination = sc.next();
+
+                    System.out.println("Enter Seats:");
+                    int seats = sc.nextInt();
+
+                    System.out.println("Enter Price:");
+                    double price = sc.nextDouble();
+
+                    rideDAO.createRide(driverId, source, destination, seats, price);
+
+                    break;
+
+                case 2:
+                    rideDAO.viewRides();
+                    break;
+
+                case 3:
+                    System.out.println("Enter Ride ID:");
+                    int rideId = sc.nextInt();
+
+                    System.out.println("Enter Passenger ID:");
+                    int passengerId = sc.nextInt();
+
+                    System.out.println("Enter Seats:");
+                    int bookSeats = sc.nextInt();
+
+                    bookingDAO.bookRide(rideId, passengerId, bookSeats);
+
+                    break;
+
+                case 4:
+                    System.exit(0);
+            }
+        }
     }
 }
